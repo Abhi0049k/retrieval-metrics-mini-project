@@ -55,13 +55,25 @@ A correct `eval.js` prints exactly this table. If your numbers differ, your metr
 | **Summary** | **MRR 0.30 · Recall@10 0.60** | **MRR 0.67 · Recall@10 1.00** |
 ```
 
-## Write up your findings
+## Evaluation Results
 
-Add a short interpretation (4 to 6 sentences) to this README or a `RESULT.md`:
-- Which system is better overall, and on which metric(s)?
-- Which queries did keyword search win, and what do those queries have in common?
-- Which queries did semantic search win, and what do those have in common?
-- One sentence on why a team would still keep the weaker system around (hint: the two systems win on different queries).
+| Query | Keyword rank | Semantic rank |
+|---|---|---|
+| my redis cache keeps showing old data | 8 | 1 |
+| how do I add semantic search to a table I already have | miss | 2 |
+| redis or memcached for caching | 1 | 2 |
+| why did my query get slower after I added an index | miss | 1 |
+| what does ACID actually guarantee | 2 | 1 |
+| how do I keep my postgres online while changing the schema | 6 | 3 |
+| my background jobs stop after every deploy | miss | 2 |
+| how do I let my database accept more writes per second | 4 | 1 |
+| sql or nosql for a new product | 1 | 3 |
+| why does my redis memory keep climbing | miss | 2 |
+| **Summary** | **MRR 0.30 · Recall@10 0.60** | **MRR 0.67 · Recall@10 1.00** |
+
+## Findings and Interpretation
+
+Overall, semantic search performs substantially better than keyword search, decisively leading across both Mean Reciprocal Rank (MRR 0.67 vs. 0.30) and Recall@10 (1.00 vs. 0.60). Keyword search outperformed semantic search on two queries: `redis or memcached for caching` and `sql or nosql for a new product`, achieving rank 1 on both. These winning queries share concise, exact technical keywords and explicit entity names (`redis`, `memcached`, `sql`, `nosql`), where lexical token matching excels without ambiguity. In contrast, semantic search won on the remaining eight queries, all of which are natural language, symptom-driven, or conceptual troubleshooting questions (such as describing slow queries, memory growth, or stale caches) where users describe intent and behavior rather than exact title keywords. An engineering team would still maintain the keyword search system—ideally alongside semantic search in a hybrid retrieval architecture—because keyword search is computationally lightweight and excels at exact entity, acronym, and identifier lookups where embedding-based search can sometimes be imprecise.
 
 ## Take it further (optional)
 
